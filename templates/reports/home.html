@@ -1,0 +1,397 @@
+{% extends 'base.html' %}
+
+{% block title %}CitoyenActif - Signalement urbain participatif{% endblock %}
+{% block description %}Signalez facilement les problèmes urbains de votre ville : nids-de-poule, éclairage défaillant, déchets... Ensemble, améliorons notre cadre de vie.{% endblock %}
+
+{% block main_class %}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop" alt="Ville moderne" class="w-full h-full object-cover opacity-20">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-600/80 via-blue-700/80 to-blue-800/80"></div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div class="text-center animate-fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                Votre ville,<br>
+                <span class="text-blue-200 animate-pulse">votre voix</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Signalez facilement les problèmes urbains et suivez leur résolution. 
+                Ensemble, améliorons notre cadre de vie et construisons des villes plus agréables.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'reports:create' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                        <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Signaler un problème
+                    </a>
+                {% else %}
+                    <a href="{% url 'accounts:register' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                        <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                        </svg>
+                        Rejoindre la communauté
+                    </a>
+                {% endif %}
+                <a href="{% url 'reports:public_reports' %}" class="inline-flex items-center px-8 py-4 border-2 border-white text-lg font-medium rounded-xl text-white hover:bg-white hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                    <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Voir les signalements
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Decorative elements -->
+    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-72 h-72 bg-blue-500 rounded-full opacity-20 blur-3xl animate-bounce-slow"></div>
+    <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-96 h-96 bg-blue-400 rounded-full opacity-10 blur-3xl"></div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                L'impact de notre communauté
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Découvrez comment les citoyens actifs transforment leur ville au quotidien
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl w-24 h-24 flex items-center justify-center mx-auto mb-6 group-hover:from-blue-100 group-hover:to-blue-200 transition duration-300 transform group-hover:scale-110">
+                    <svg class="h-12 w-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <div class="text-4xl font-bold text-gray-900 mb-2">{{ stats.total_reports|default:"1,247" }}</div>
+                <div class="text-gray-600 font-medium">Signalements créés</div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl w-24 h-24 flex items-center justify-center mx-auto mb-6 group-hover:from-green-100 group-hover:to-green-200 transition duration-300 transform group-hover:scale-110">
+                    <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <div class="text-4xl font-bold text-gray-900 mb-2">{{ stats.resolved_reports|default:"892" }}</div>
+                <div class="text-gray-600 font-medium">Problèmes résolus</div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl w-24 h-24 flex items-center justify-center mx-auto mb-6 group-hover:from-purple-100 group-hover:to-purple-200 transition duration-300 transform group-hover:scale-110">
+                    <svg class="h-12 w-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <div class="text-4xl font-bold text-gray-900 mb-2">{{ stats.categories_count|default:"12" }}</div>
+                <div class="text-gray-600 font-medium">Catégories</div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl w-24 h-24 flex items-center justify-center mx-auto mb-6 group-hover:from-orange-100 group-hover:to-orange-200 transition duration-300 transform group-hover:scale-110">
+                    <svg class="h-12 w-12 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <div class="text-4xl font-bold text-gray-900 mb-2">{{ stats.active_users|default:"3,456" }}</div>
+                <div class="text-gray-600 font-medium">Citoyens actifs</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How it works -->
+<div class="bg-gray-50 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Comment ça marche ?
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                En quelques étapes simples, contribuez à l'amélioration de votre ville
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center group">
+                <div class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-4 group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-blue-50">
+                    <div class="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition duration-300">
+                        <span class="text-3xl font-bold text-blue-600">1</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Observez</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Identifiez un problème urbain dans votre quartier : nid-de-poule, 
+                        éclairage défaillant, dégradation ou tout autre dysfonctionnement.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-4 group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-green-50">
+                    <div class="bg-gradient-to-br from-green-100 to-green-200 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition duration-300">
+                        <span class="text-3xl font-bold text-green-600">2</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Signalez</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Créez un signalement avec description, photo et localisation précise 
+                        en quelques minutes depuis votre smartphone ou ordinateur.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition duration-500 transform hover:-translate-y-4 group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-purple-50">
+                    <div class="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition duration-300">
+                        <span class="text-3xl font-bold text-purple-600">3</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4">Suivez</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Recevez des mises à jour sur l'avancement de votre signalement 
+                        et voyez votre ville s'améliorer grâce à votre contribution.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Categories -->
+<div class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Types de signalements
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                CitoyenActif couvre tous les aspects de la vie urbaine pour une ville plus agréable
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 text-center hover:from-blue-50 hover:to-blue-100 transition duration-300 transform hover:scale-105 cursor-pointer group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🛣️</div>
+                <h3 class="font-semibold text-gray-900 mb-2 group-hover:text-blue-700">Voirie</h3>
+                <p class="text-sm text-gray-600">Nids-de-poule, fissures, signalisation</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 text-center hover:from-yellow-50 hover:to-yellow-100 transition duration-300 transform hover:scale-105 cursor-pointer group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">💡</div>
+                <h3 class="font-semibold text-gray-900 mb-2 group-hover:text-yellow-700">Éclairage</h3>
+                <p class="text-sm text-gray-600">Lampadaires défaillants, zones sombres</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 text-center hover:from-green-50 hover:to-green-100 transition duration-300 transform hover:scale-105 cursor-pointer group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🗑️</div>
+                <h3 class="font-semibold text-gray-900 mb-2 group-hover:text-green-700">Propreté</h3>
+                <p class="text-sm text-gray-600">Déchets, dépôts sauvages, graffitis</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 text-center hover:from-blue-50 hover:to-blue-100 transition duration-300 transform hover:scale-105 cursor-pointer group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">💧</div>
+                <h3 class="font-semibold text-gray-900 mb-2 group-hover:text-blue-700">Eau</h3>
+                <p class="text-sm text-gray-600">Fuites, canalisations, égouts</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 text-center hover:from-green-50 hover:to-green-100 transition duration-300 transform hover:scale-105 cursor-pointer group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🌳</div>
+                <h3 class="font-semibold text-gray-900 mb-2 group-hover:text-green-700">Espaces verts</h3>
+                <p class="text-sm text-gray-600">Arbres dangereux, espaces dégradés</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 text-center hover:from-purple-50 hover:to-purple-100 transition duration-300 transform hover:scale-105 cursor-pointer group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🚧</div>
+                <h3 class="font-semibold text-gray-900 mb-2 group-hover:text-purple-700">Mobilier urbain</h3>
+                <p class="text-sm text-gray-600">Bancs, arrêts de bus, panneaux</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent resolved reports -->
+<div class="bg-gray-50 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Derniers problèmes résolus
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Découvrez les améliorations récentes apportées à votre ville grâce à l'engagement citoyen
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Example resolved reports -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition duration-500 transform hover:-translate-y-2">
+                <div class="h-48 bg-gradient-to-br from-green-400 to-green-600 relative overflow-hidden">
+                    <img src="https://images.pexels.com/photos/1105766/pexels-photo-1105766.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Route réparée" class="w-full h-full object-cover opacity-80">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            ✅ Résolu
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Nid-de-poule Avenue de la République</h3>
+                    <p class="text-gray-600 text-sm mb-4">Important nid-de-poule dangereux pour les cyclistes et les véhicules, réparé en 48h après signalement.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Avenue de la République, 75011 Paris
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition duration-500 transform hover:-translate-y-2">
+                <div class="h-48 bg-gradient-to-br from-yellow-400 to-yellow-600 relative overflow-hidden">
+                    <img src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Éclairage réparé" class="w-full h-full object-cover opacity-80">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            ✅ Résolu
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Lampadaire défaillant Place du Marché</h3>
+                    <p class="text-gray-600 text-sm mb-4">Éclairage public en panne créant une zone d'insécurité, remplacé par les services techniques.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Place du Marché, 75004 Paris
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition duration-500 transform hover:-translate-y-2">
+                <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 relative overflow-hidden">
+                    <img src="https://images.pexels.com/photos/2382894/pexels-photo-2382894.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Parc nettoyé" class="w-full h-full object-cover opacity-80">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            ✅ Résolu
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Dépôt sauvage Parc des Buttes</h3>
+                    <p class="text-gray-600 text-sm mb-4">Accumulation de déchets dans l'espace vert, nettoyage effectué et surveillance renforcée.</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Parc des Buttes-Chaumont, 75019 Paris
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'reports:public_reports' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                Voir tous les signalements
+                <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials -->
+<div class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Ce que disent nos citoyens
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Découvrez les témoignages de ceux qui font la différence dans leur ville
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 transform hover:scale-105 transition duration-300">
+                <div class="flex items-center mb-4">
+                    <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop&crop=face" alt="Marie Dubois" class="w-12 h-12 rounded-full object-cover mr-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-900">Marie Dubois</h4>
+                        <p class="text-sm text-gray-600">Résidente du 11ème</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 italic">
+                    "Grâce à CitoyenActif, le nid-de-poule devant chez moi a été réparé en 2 jours ! 
+                    C'est formidable de voir que notre voix compte vraiment."
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 transform hover:scale-105 transition duration-300">
+                <div class="flex items-center mb-4">
+                    <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop&crop=face" alt="Pierre Martin" class="w-12 h-12 rounded-full object-cover mr-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-900">Pierre Martin</h4>
+                        <p class="text-sm text-gray-600">Cycliste quotidien</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 italic">
+                    "Interface très simple à utiliser. J'ai signalé plusieurs problèmes sur mes trajets vélo 
+                    et la plupart ont été résolus rapidement."
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 transform hover:scale-105 transition duration-300">
+                <div class="flex items-center mb-4">
+                    <img src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop&crop=face" alt="Sophie Leroy" class="w-12 h-12 rounded-full object-cover mr-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-900">Sophie Leroy</h4>
+                        <p class="text-sm text-gray-600">Maman de famille</p>
+                    </div>
+                </div>
+                <p class="text-gray-700 italic">
+                    "Parfait pour signaler les problèmes de sécurité près des écoles. 
+                    Les services municipaux sont très réactifs !"
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-gradient-to-r from-blue-600 to-blue-700 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Prêt à faire la différence ?
+        </h2>
+        <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Rejoignez des milliers de citoyens qui améliorent leur ville au quotidien. 
+            Votre signalement peut changer les choses et rendre votre quartier plus agréable !
+        </p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'reports:create' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Créer mon premier signalement
+            </a>
+        {% else %}
+            <a href="{% url 'accounts:register' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                Rejoindre CitoyenActif
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

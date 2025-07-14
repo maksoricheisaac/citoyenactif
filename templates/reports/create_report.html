@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block title %}Nouveau signalement - CitoyenActif{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="px-6 py-4 bg-primary">
+            <h1 class="text-2xl font-bold text-white flex items-center">
+                <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Nouveau signalement
+            </h1>
+            <p class="text-blue-100 mt-1">Signalez un problème urbain dans votre ville</p>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" class="p-6 space-y-6">
+            {% csrf_token %}
+            
+            <div class="space-y-6">
+                <!-- Titre -->
+                <div>
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Titre du signalement *
+                    </label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.title.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Catégorie -->
+                <div>
+                    <label for="{{ form.category.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Catégorie *
+                    </label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.category.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Description détaillée *
+                    </label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.description.errors.0 }}
+                        </div>
+                    {% endif %}
+                    <p class="mt-1 text-sm text-gray-500">Décrivez le problème de manière précise et détaillée</p>
+                </div>
+
+                <!-- Localisation -->
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Localisation *
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                Adresse ou description du lieu
+                            </label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {{ form.location.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="{{ form.latitude.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Latitude
+                                </label>
+                                <input type="text" id="latitude-display" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600" placeholder="Automatique">
+                                {{ form.latitude }}
+                            </div>
+                            <div>
+                                <label for="{{ form.longitude.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Longitude
+                                </label>
+                                <input type="text" id="longitude-display" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600" placeholder="Automatique">
+                                {{ form.longitude }}
+                            </div>
+                        </div>
+                        
+                        <button type="button" id="get-location" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Utiliser ma position actuelle
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Photo -->
+                <div>
+                    <label for="{{ form.photo.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Photo (optionnelle)
+                    </label>
+                    {{ form.photo }}
+                    {% if form.photo.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.photo.errors.0 }}
+                        </div>
+                    {% endif %}
+                    <p class="mt-1 text-sm text-gray-500">Une photo aide à mieux comprendre le problème</p>
+                </div>
+            </div>
+
+            <!-- Boutons -->
+            <div class="flex flex-col sm:flex-row sm:justify-end sm:space-x-4 space-y-3 sm:space-y-0 pt-6 border-t border-gray-200">
+                <a href="{% url 'reports:dashboard' %}" class="inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                    Annuler
+                </a>
+                <button type="submit" class="inline-flex justify-center items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Créer le signalement
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const getLocationBtn = document.getElementById('get-location');
+    const latInput = document.getElementById('{{ form.latitude.id_for_label }}');
+    const lonInput = document.getElementById('{{ form.longitude.id_for_label }}');
+    const latDisplay = document.getElementById('latitude-display');
+    const lonDisplay = document.getElementById('longitude-display');
+
+    getLocationBtn.addEventListener('click', function() {
+        if (navigator.geolocation) {
+            getLocationBtn.innerHTML = '<svg class="animate-spin mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Localisation...';
+            getLocationBtn.disabled = true;
+            
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude.toFixed(6);
+                    const lon = position.coords.longitude.toFixed(6);
+                    
+                    latInput.value = lat;
+                    lonInput.value = lon;
+                    latDisplay.value = lat;
+                    lonDisplay.value = lon;
+                    
+                    getLocationBtn.innerHTML = '<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Position obtenue';
+                    getLocationBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    getLocationBtn.classList.add('bg-green-500');
+                    
+                    setTimeout(() => {
+                        getLocationBtn.innerHTML = '<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>Utiliser ma position actuelle';
+                        getLocationBtn.classList.remove('bg-green-500');
+                        getLocationBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                        getLocationBtn.disabled = false;
+                    }, 2000);
+                },
+                function(error) {
+                    getLocationBtn.innerHTML = '<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Erreur de localisation';
+                    getLocationBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    getLocationBtn.classList.add('bg-red-500');
+                    getLocationBtn.disabled = false;
+                    
+                    setTimeout(() => {
+                        getLocationBtn.innerHTML = '<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>Utiliser ma position actuelle';
+                        getLocationBtn.classList.remove('bg-red-500');
+                        getLocationBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    }, 3000);
+                }
+            );
+        } else {
+            alert('La géolocalisation n\'est pas supportée par ce navigateur.');
+        }
+    });
+});
+</script>
+{% endblock %}

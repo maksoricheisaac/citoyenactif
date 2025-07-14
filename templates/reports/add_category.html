@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Ajouter une catégorie{% endblock %}
+{% block page_title %}Ajouter une catégorie{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow">
+    <h2 class="text-2xl font-bold mb-6">Nouvelle catégorie</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="mt-6 flex justify-end">
+            <a href="{% url 'reports:admin_dashboard' %}" class="px-4 py-2 bg-gray-200 rounded mr-2">Annuler</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Ajouter</button>
+        </div>
+    </form>
+</div>
+{% endblock %} 

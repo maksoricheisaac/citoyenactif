@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon profil - CitoyenActif{% endblock %}
+{% block description %}Gérez vos informations personnelles, votre photo de profil et votre mot de passe.{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<div class="relative w-full flex flex-col items-center justify-center mb-12">
+    <div class="absolute inset-0 h-64 bg-gradient-to-r from-blue-600 via-blue-400 to-blue-700 opacity-90 blur-sm"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center py-12">
+        <div class="mb-4">
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="Photo de profil" class="w-28 h-28 rounded-full object-cover border-4 border-white shadow-xl ring-4 ring-blue-300 bg-white">
+            {% else %}
+                <div class="w-28 h-28 rounded-full bg-blue-200 flex items-center justify-center text-5xl text-blue-700 font-bold border-4 border-white shadow-xl ring-4 ring-blue-300">
+                    {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+                </div>
+            {% endif %}
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-white drop-shadow mb-2 flex items-center gap-2">
+            <svg class="w-8 h-8 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            Bonjour, {{ user.full_name }} !
+        </h1>
+        <p class="text-blue-100 text-lg font-medium mb-2">Gérez votre profil, vos informations et votre sécurité</p>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+    <!-- Carte Profil à gauche -->
+    <div class="backdrop-blur-md bg-white/70 border border-blue-100 rounded-3xl shadow-2xl p-8 flex flex-col items-center justify-center animate-fade-in">
+        <div class="mb-6 relative">
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="Photo de profil" class="w-32 h-32 rounded-full object-cover border-4 border-blue-600 shadow-lg">
+            {% else %}
+                <div class="w-32 h-32 rounded-full bg-blue-200 flex items-center justify-center text-5xl text-blue-700 font-bold border-4 border-blue-600 shadow-lg">
+                    {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+                </div>
+            {% endif %}
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            {{ user.full_name }}
+        </h2>
+        <p class="text-gray-600 flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 01-8 0m8 0a4 4 0 01-8 0m8 0V8a4 4 0 00-8 0v4m8 0v4a4 4 0 01-8 0v-4"/></svg>
+            {{ user.email }}
+        </p>
+        <p class="text-gray-500 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0-1.104.896-2 2-2s2 .896 2 2-.896 2-2 2-2-.896-2-2z"/></svg>
+            {{ user.get_role_display }}
+        </p>
+    </div>
+    <!-- Formulaires à droite -->
+    <div class="space-y-10 animate-slide-up">
+        <!-- Formulaire profil -->
+        <div id="form-profil" class="backdrop-blur-md bg-white/80 border border-blue-100 rounded-3xl shadow-2xl p-8">
+            <h3 class="text-xl font-bold text-blue-700 mb-8 flex items-center gap-2">
+                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Modifier mes informations
+            </h3>
+            <form class="space-y-6" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="update_profile" value="1">
+                {{ form.non_field_errors }}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="relative">
+                        {{ form.first_name.label_tag }}
+                        <div class="flex items-center relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg></span>
+                            {{ form.first_name }}
+                        </div>
+                        {% if form.first_name.errors %}<div class="mt-1 text-sm text-red-600">{{ form.first_name.errors.0 }}</div>{% endif %}
+                    </div>
+                    <div class="relative">
+                        {{ form.last_name.label_tag }}
+                        <div class="flex items-center relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg></span>
+                            {{ form.last_name }}
+                        </div>
+                        {% if form.last_name.errors %}<div class="mt-1 text-sm text-red-600">{{ form.last_name.errors.0 }}</div>{% endif %}
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="relative">
+                        {{ form.username.label_tag }}
+                        <div class="flex items-center relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg></span>
+                            {{ form.username }}
+                        </div>
+                        {% if form.username.errors %}<div class="mt-1 text-sm text-red-600">{{ form.username.errors.0 }}</div>{% endif %}
+                    </div>
+                    <div class="relative">
+                        {{ form.email.label_tag }}
+                        <div class="flex items-center relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></span>
+                            {{ form.email }}
+                        </div>
+                        {% if form.email.errors %}<div class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</div>{% endif %}
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="relative">
+                        {{ form.phone.label_tag }}
+                        <div class="flex items-center relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></span>
+                            {{ form.phone }}
+                        </div>
+                        {% if form.phone.errors %}<div class="mt-1 text-sm text-red-600">{{ form.phone.errors.0 }}</div>{% endif %}
+                    </div>
+                    <div class="relative">
+                        {{ form.profile_picture.label_tag }}
+                        <div class="flex items-center relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></span>
+                            {{ form.profile_picture }}
+                        </div>
+                        {% if form.profile_picture.errors %}<div class="mt-1 text-sm text-red-600">{{ form.profile_picture.errors.0 }}</div>{% endif %}
+                    </div>
+                </div>
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-lg font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                    <svg class="w-6 h-6 mr-2 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Mettre à jour le profil
+                </button>
+            </form>
+        </div>
+       
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ report.title }} - CitoyenActif{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Back button -->
+    <div>
+        <a href="{% if user.is_admin %}{% url 'reports:admin_dashboard' %}{% else %}{% url 'reports:my_reports' %}{% endif %}" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Retour
+        </a>
+    </div>
+
+    <!-- Report Details -->
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ report.title }}</h1>
+                    <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            {% if report.status == 'pending' %}bg-yellow-100 text-yellow-800
+                            {% elif report.status == 'in_progress' %}bg-blue-100 text-blue-800
+                            {% elif report.status == 'resolved' %}bg-green-100 text-green-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ report.get_status_display }}
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                            {% if report.priority == 'low' %}bg-green-100 text-green-800
+                            {% elif report.priority == 'medium' %}bg-yellow-100 text-yellow-800
+                            {% elif report.priority == 'high' %}bg-orange-100 text-orange-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            Priorité {{ report.get_priority_display|lower }}
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                            {{ report.category.name }}
+                        </span>
+                    </div>
+                </div>
+                {% if user.is_admin %}
+                <div class="flex-shrink-0 ml-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Admin
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Description -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-3">Description</h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-gray-700 whitespace-pre-wrap">{{ report.description }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Photo -->
+                    {% if report.photo %}
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-3">Photo</h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <img src="{{ report.photo.url }}" alt="{{ report.title }}" class="max-w-full h-auto rounded-lg shadow-sm">
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Admin Notes -->
+                    {% if user.is_admin and report.admin_notes %}
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-3">Notes administratives</h3>
+                        <div class="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-400">
+                            <p class="text-gray-700 whitespace-pre-wrap">{{ report.admin_notes }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Report Info -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-900 mb-3">Informations</h3>
+                        <dl class="space-y-3 text-sm">
+                            <div>
+                                <dt class="font-medium text-gray-500">Signalé par</dt>
+                                <dd class="text-gray-900">{{ report.user.full_name }}</dd>
+                            </div>
+                            <div>
+                                <dt class="font-medium text-gray-500">Date de création</dt>
+                                <dd class="text-gray-900">{{ report.created_at|date:"d/m/Y à H:i" }}</dd>
+                            </div>
+                            {% if report.updated_at != report.created_at %}
+                            <div>
+                                <dt class="font-medium text-gray-500">Dernière mise à jour</dt>
+                                <dd class="text-gray-900">{{ report.updated_at|date:"d/m/Y à H:i" }}</dd>
+                            </div>
+                            {% endif %}
+                            {% if user.is_admin and report.assigned_to %}
+                            <div>
+                                <dt class="font-medium text-gray-500">Assigné à</dt>
+                                <dd class="text-gray-900">{{ report.assigned_to.full_name }}</dd>
+                            </div>
+                            {% endif %}
+                        </dl>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                            <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Localisation
+                        </h3>
+                        <p class="text-gray-700 text-sm">{{ report.location }}</p>
+                        {% if report.latitude and report.longitude %}
+                        <p class="text-xs text-gray-500 mt-2">
+                            Coordonnées: {{ report.latitude|floatformat:6 }}, {{ report.longitude|floatformat:6 }}
+                        </p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Admin Actions -->
+                    {% if user.is_admin and admin_form %}
+                    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                        <h3 class="text-lg font-medium text-gray-900 mb-3">Actions administrateur</h3>
+                        <form method="post" action="{% url 'reports:update_admin' report.pk %}" class="space-y-4">
+                            {% csrf_token %}
+                            <div>
+                                <label for="{{ admin_form.status.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+                                {{ admin_form.status }}
+                            </div>
+                            <div>
+                                <label for="{{ admin_form.priority.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Priorité</label>
+                                {{ admin_form.priority }}
+                            </div>
+                            <div>
+                                <label for="{{ admin_form.assigned_to.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Assigné à</label>
+                                {{ admin_form.assigned_to }}
+                            </div>
+                            <div>
+                                <label for="{{ admin_form.admin_notes.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Notes administratives</label>
+                                {{ admin_form.admin_notes }}
+                            </div>
+                            <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                                Mettre à jour
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-900">
+                    Commentaires ({{ comments.count }})
+                </h2>
+            </div>
+
+            <!-- Comments List -->
+            {% if comments %}
+            <div class="space-y-4 mb-6">
+                {% for comment in comments %}
+                <div class="{% if comment.is_internal %}bg-yellow-50 border-l-4 border-yellow-400{% else %}bg-gray-50{% endif %} rounded-lg p-4">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="h-8 w-8 bg-primary rounded-full flex items-center justify-center">
+                                {% if comment.user %}
+                                    <span class="text-white text-sm font-medium">{{ comment.user.first_name|first }}{{ comment.user.last_name|first }}</span>
+                                {% elif comment.pseudo %}
+                                    <span class="text-white text-sm font-medium">{{ comment.pseudo|first|upper }}</span>
+                                {% elif comment.email %}
+                                    <span class="text-white text-sm font-medium">@</span>
+                                {% else %}
+                                    <span class="text-white text-sm font-medium">?</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">
+                                    {% if comment.user %}
+                                        {{ comment.user.full_name }}
+                                    {% elif comment.pseudo %}
+                                        {{ comment.pseudo }}
+                                    {% elif comment.email %}
+                                        {{ comment.email }}
+                                    {% else %}
+                                        Anonyme
+                                    {% endif %}
+                                </p>
+                                <p class="text-xs text-gray-500">{{ comment.created_at|date:"d/m/Y à H:i" }}</p>
+                            </div>
+                            {% if comment.is_internal %}
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Note interne
+                            </span>
+                            {% endif %}
+                        </div>
+                        {% if comment.user and comment.user == user %}
+                        <div class="flex items-center space-x-2">
+                            <!-- Edit button -->
+                            <button type="button" class="text-blue-600 hover:underline text-xs font-medium" onclick="toggleEditForm('edit-form-{{ comment.id }}')">Modifier</button>
+                            <!-- Delete button -->
+                            <form method="post" action="{% url 'reports:delete_comment' report.pk comment.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-600 hover:underline text-xs font-medium" onclick="return confirm('Supprimer ce commentaire ?');">Supprimer</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-gray-700 whitespace-pre-wrap" id="comment-content-{{ comment.id }}">{{ comment.content }}</p>
+                        {% if comment.user == user %}
+                        <!-- Edit form (hidden by default) -->
+                        <form method="post" action="{% url 'reports:edit_comment' report.pk comment.id %}" id="edit-form-{{ comment.id }}" class="space-y-2 mt-2 hidden">
+                            {% csrf_token %}
+                            <textarea name="content" rows="2" class="w-full border rounded p-2 text-sm">{{ comment.content }}</textarea>
+                            <div class="flex items-center space-x-2">
+                                <button type="submit" class="inline-flex items-center px-3 py-1 text-xs font-medium rounded bg-blue-600 text-white hover:bg-blue-700">Enregistrer</button>
+                                <button type="button" class="inline-flex items-center px-3 py-1 text-xs font-medium rounded bg-gray-200 text-gray-700 hover:bg-gray-300" onclick="toggleEditForm('edit-form-{{ comment.id }}')">Annuler</button>
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-6 text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                <p class="mt-2">Aucun commentaire pour le moment</p>
+            </div>
+            {% endif %}
+
+            <!-- Add Comment Form -->
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Ajouter un commentaire</h3>
+                <form method="post" action="{% url 'reports:add_comment' report.pk %}" class="space-y-4">
+                    {% csrf_token %}
+                    {% if not user.is_authenticated %}
+                    <div>
+                        <label for="id_pseudo" class="block text-sm font-medium text-gray-700 mb-1">Nom ou pseudo *</label>
+                        {{ comment_form.pseudo }}
+                        {% if comment_form.pseudo.errors %}
+                            <div class="mt-1 text-sm text-red-600">{{ comment_form.pseudo.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_email" class="block text-sm font-medium text-gray-700 mb-1">Adresse email (optionnel)</label>
+                        {{ comment_form.email }}
+                        {% if comment_form.email.errors %}
+                            <div class="mt-1 text-sm text-red-600">{{ comment_form.email.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div>
+                        <label for="{{ comment_form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Commentaire</label>
+                        {{ comment_form.content }}
+                        {% if comment_form.content.errors %}
+                            <div class="mt-1 text-sm text-red-600">{{ comment_form.content.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    {% if user.is_authenticated and user.is_admin %}
+                    <div class="flex items-center">
+                        {{ comment_form.is_internal }}
+                        <label for="{{ comment_form.is_internal.id_for_label }}" class="ml-2 text-sm text-gray-600">
+                            {{ comment_form.is_internal.label }}
+                        </label>
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Ajouter le commentaire
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Messages -->
+    {% if messages %}
+    <div id="alert-messages" class="space-y-2">
+        {% for message in messages %}
+        <div id="flowbite-alert-{{ forloop.counter }}" class="flex items-center p-4 mb-4 text-sm rounded-lg border shadow-sm
+            {% if message.tags == 'success' %}text-green-800 bg-green-50 border-green-300 dark:bg-gray-800 dark:text-green-400 dark:border-green-800
+            {% elif message.tags == 'error' or message.tags == 'danger' %}text-red-800 bg-red-50 border-red-300 dark:bg-gray-800 dark:text-red-400 dark:border-red-800
+            {% else %}text-blue-800 bg-blue-50 border-blue-300 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800{% endif %}"
+            role="alert">
+            <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                {% if message.tags == 'success' %}
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                {% elif message.tags == 'error' or message.tags == 'danger' %}
+                <path fill-rule="evenodd" d="M18 10A8 8 0 11.001 10 8 8 0 0118 10zm-8-4a1 1 0 10-2 0v4a1 1 0 002 0V6zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                {% else %}
+                <path fill-rule="evenodd" d="M18 10A8 8 0 11.001 10 8 8 0 0118 10zm-8-4a1 1 0 10-2 0v4a1 1 0 002 0V6zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                {% endif %}
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="flex-1">{{ message }}</div>
+            <button type="button" class="ml-4 -mx-1.5 -my-1.5 bg-transparent text-gray-400 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-200 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:bg-gray-700" data-dismiss-target="#flowbite-alert-{{ forloop.counter }}" aria-label="Close">
+                <span class="sr-only">Fermer</span>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    <script src="https://unpkg.com/flowbite@2.2.1/dist/flowbite.min.js"></script>
+    <script>
+    setTimeout(function() {
+        var alert = document.getElementById('alert-messages');
+        if(alert) alert.style.display = 'none';
+    }, 3500);
+    </script>
+    {% endif %}
+</div>
+<script>
+function toggleEditForm(id) {
+    var el = document.getElementById(id);
+    if (el) {
+        el.classList.toggle('hidden');
+    }
+}
+</script>
+{% endblock %}

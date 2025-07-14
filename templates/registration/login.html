@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Connexion administration{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/admin_login_custom.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-box">
+        <h1 class="login-title">Connexion à l'administration</h1>
+        {% if form.errors %}
+            <p class="error">Identifiants invalides. Veuillez réessayer.</p>
+        {% endif %}
+        <form method="post" action="{% url 'admin:login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Nom d'utilisateur</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="id_password">Mot de passe</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="btn-login">Connexion</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

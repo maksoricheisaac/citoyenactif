@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+
+{% block title %}À propos - CitoyenActif{% endblock %}
+{% block description %}Découvrez CitoyenActif, la plateforme qui permet aux citoyens de signaler les problèmes urbains et d'améliorer leur ville ensemble.{% endblock %}
+
+{% block main_class %}max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8{% endblock %}
+
+{% block content %}
+<section class="relative w-full h-64 md:h-80 flex items-center justify-center overflow-hidden rounded-3xl shadow-2xl mb-12">
+  <img src="/media/reports/solar-street-light-punjab-india.webp" alt="Ville CitoyenActif" class="absolute inset-0 w-full h-full object-cover opacity-70">
+  <div class="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-blue-600/40"></div>
+  <div class="relative z-10 text-center text-white px-4">
+    <h1 class="text-3xl md:text-5xl font-bold mb-4">À propos de CitoyenActif</h1>
+    <p class="text-lg md:text-2xl">La plateforme citoyenne pour signaler, suivre et améliorer la ville ensemble.</p>
+  </div>
+</section>
+
+    <!-- Mission Section -->
+    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-16 animate-slide-up">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Notre mission</h2>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    Nous croyons que chaque citoyen a le pouvoir d'améliorer sa ville. CitoyenActif 
+                    facilite la communication entre les habitants et les services municipaux pour 
+                    résoudre rapidement les problèmes du quotidien et créer des villes plus durables.
+                </p>
+                <div class="space-y-6">
+                    <div class="flex items-start group">
+                        <div class="flex-shrink-0">
+                            <div class="h-12 w-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition duration-300">
+                                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Simplicité</h3>
+                            <p class="text-gray-600">Signaler un problème en quelques clics avec photo et géolocalisation automatique</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start group">
+                        <div class="flex-shrink-0">
+                            <div class="h-12 w-12 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center group-hover:from-green-200 group-hover:to-green-300 transition duration-300">
+                                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Transparence</h3>
+                            <p class="text-gray-600">Suivi en temps réel de l'avancement des signalements avec notifications</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start group">
+                        <div class="flex-shrink-0">
+                            <div class="h-12 w-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center group-hover:from-purple-200 group-hover:to-purple-300 transition duration-300">
+                                <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Communauté</h3>
+                            <p class="text-gray-600">Mobilisation collective pour l'amélioration urbaine et l'engagement citoyen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 text-center transform hover:scale-105 transition duration-500">
+                    <div class="text-8xl mb-6">🏙️</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Ensemble, construisons l'avenir</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Chaque signalement compte. Votre engagement citoyen contribue à créer 
+                        des villes plus durables et agréables pour tous les habitants.
+                    </p>
+                </div>
+                <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-200 rounded-full opacity-20 animate-bounce-slow"></div>
+                <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-blue-300 rounded-full opacity-10"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How it works -->
+    <div>
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Comment ça fonctionne ?
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Un processus simple et efficace pour transformer votre ville en 4 étapes
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-blue-100 to-blue-200 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-8 group-hover:from-blue-200 group-hover:to-blue-300 transition duration-300 transform group-hover:scale-110">
+                    <span class="text-3xl font-bold text-blue-600">1</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Observez</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Identifiez un problème urbain dans votre quartier : nid-de-poule, 
+                    éclairage défaillant, dégradation ou tout autre dysfonctionnement.
+                </p>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-green-100 to-green-200 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-8 group-hover:from-green-200 group-hover:to-green-300 transition duration-300 transform group-hover:scale-110">
+                    <span class="text-3xl font-bold text-green-600">2</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Signalez</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Créez un signalement avec description, photo et localisation précise 
+                    en quelques minutes depuis votre smartphone ou ordinateur.
+                </p>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-purple-100 to-purple-200 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-8 group-hover:from-purple-200 group-hover:to-purple-300 transition duration-300 transform group-hover:scale-110">
+                    <span class="text-3xl font-bold text-purple-600">3</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Suivez</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Recevez des mises à jour sur l'avancement de votre signalement 
+                    et échangez avec les services municipaux via les commentaires.
+                </p>
+            </div>
+            
+            <div class="text-center group">
+                <div class="bg-gradient-to-br from-orange-100 to-orange-200 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-8 group-hover:from-orange-200 group-hover:to-orange-300 transition duration-300 transform group-hover:scale-110">
+                    <span class="text-3xl font-bold text-orange-600">4</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Célébrez</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Voyez votre problème résolu et votre ville s'améliorer grâce 
+                    à votre contribution citoyenne active et engagée.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Types of reports -->
+    <div class="bg-gray-50 rounded-3xl p-8 md:p-16">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Types de signalements
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                CitoyenActif couvre tous les aspects de la vie urbaine pour une ville plus agréable
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="bg-white rounded-2xl p-6 text-center hover:shadow-xl transition duration-300 transform hover:scale-105 group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🛣️</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Voirie</h3>
+                <p class="text-sm text-gray-600">Nids-de-poule, fissures, signalisation défaillante</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 text-center hover:shadow-xl transition duration-300 transform hover:scale-105 group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">💡</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Éclairage</h3>
+                <p class="text-sm text-gray-600">Lampadaires défaillants, zones mal éclairées</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 text-center hover:shadow-xl transition duration-300 transform hover:scale-105 group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🗑️</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Propreté</h3>
+                <p class="text-sm text-gray-600">Déchets, dépôts sauvages, graffitis</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 text-center hover:shadow-xl transition duration-300 transform hover:scale-105 group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">💧</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Eau</h3>
+                <p class="text-sm text-gray-600">Fuites, canalisations, problèmes d'égouts</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 text-center hover:shadow-xl transition duration-300 transform hover:scale-105 group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🌳</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Espaces verts</h3>
+                <p class="text-sm text-gray-600">Arbres dangereux, espaces dégradés</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 text-center hover:shadow-xl transition duration-300 transform hover:scale-105 group">
+                <div class="text-5xl mb-4 group-hover:animate-bounce">🚧</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Mobilier urbain</h3>
+                <p class="text-sm text-gray-600">Bancs, arrêts de bus, panneaux</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Values -->
+    <div>
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Nos valeurs
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Les principes qui guident notre action au quotidien pour une ville meilleure
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl transition duration-500 transform hover:-translate-y-2">
+                <div class="bg-gradient-to-br from-blue-100 to-blue-200 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-8">
+                    <svg class="h-10 w-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Participation citoyenne</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Nous encourageons l'engagement de tous les citoyens dans l'amélioration 
+                    de leur environnement urbain et la construction d'une ville plus démocratique.
+                </p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl transition duration-500 transform hover:-translate-y-2">
+                <div class="bg-gradient-to-br from-green-100 to-green-200 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-8">
+                    <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Transparence</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Nous garantissons une information claire et accessible sur le traitement 
+                    de chaque signalement avec un suivi en temps réel des actions menées.
+                </p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl transition duration-500 transform hover:-translate-y-2">
+                <div class="bg-gradient-to-br from-purple-100 to-purple-200 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-8">
+                    <svg class="h-10 w-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Efficacité</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Nous optimisons les processus pour une résolution rapide et efficace 
+                    des problèmes urbains grâce à la technologie et la collaboration.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 md:p-16">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Notre équipe
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Des passionnés de technologie et d'engagement citoyen au service de votre ville
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-2xl p-8 text-center transform hover:scale-105 transition duration-300">
+                <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=face" alt="Thomas Dubois" class="w-24 h-24 rounded-full object-cover mx-auto mb-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Thomas Dubois</h3>
+                <p class="text-blue-600 font-medium mb-4">Fondateur & CEO</p>
+                <p class="text-gray-600 text-sm">
+                    Ancien urbaniste passionné par l'innovation civique et les technologies participatives.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-8 text-center transform hover:scale-105 transition duration-300">
+                <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=face" alt="Marie Leroy" class="w-24 h-24 rounded-full object-cover mx-auto mb-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Marie Leroy</h3>
+                <p class="text-blue-600 font-medium mb-4">Directrice Technique</p>
+                <p class="text-gray-600 text-sm">
+                    Développeuse experte en applications web et mobile, spécialisée en UX/UI design.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-8 text-center transform hover:scale-105 transition duration-300">
+                <img src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=face" alt="Sophie Martin" class="w-24 h-24 rounded-full object-cover mx-auto mb-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Sophie Martin</h3>
+                <p class="text-blue-600 font-medium mb-4">Responsable Partenariats</p>
+                <p class="text-gray-600 text-sm">
+                    Spécialiste des relations avec les collectivités et de l'engagement citoyen.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-8 md:p-16 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Rejoignez le mouvement CitoyenActif
+        </h2>
+        <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Ensemble, nous pouvons transformer nos villes et créer un environnement 
+            plus agréable pour tous. Votre voix compte, votre action fait la différence !
+        </p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'reports:create' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Créer mon premier signalement
+            </a>
+        {% else %}
+            <a href="{% url 'accounts:register' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                Rejoindre CitoyenActif
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

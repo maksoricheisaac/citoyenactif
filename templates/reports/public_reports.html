@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}Problèmes signalés - CitoyenActif{% endblock %}
+{% block description %}Découvrez tous les signalements dans votre ville. Voyez l'impact de la communauté CitoyenActif sur l'amélioration urbaine.{% endblock %}
+
+{% block main_class %}max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8{% endblock %}
+
+{% block content %}
+<section class="relative w-full h-64 md:h-80 flex items-center justify-center overflow-hidden rounded-3xl shadow-2xl mb-12">
+  <img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&fit=crop&w=800&q=80" alt="Ville CitoyenActif" class="absolute inset-0 w-full h-full object-cover opacity-70">
+  <div class="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-blue-600/40"></div>
+  <div class="relative z-10 text-center text-white px-4">
+    <h1 class="text-3xl md:text-5xl font-bold mb-4">Problèmes signalés par la communauté</h1>
+    <p class="text-lg md:text-2xl">Découvrez l'impact de l'engagement citoyen sur l'amélioration urbaine.</p>
+  </div>
+</section>
+
+<div class="space-y-12">
+    <!-- Header Hero -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-center md:text-left animate-fade-in">
+        <div>
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+                Problèmes signalés par la <span class="bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">communauté</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-4xl mx-auto md:mx-0 leading-relaxed">
+                Découvrez les problèmes urbains signalés et résolus grâce à l'engagement citoyen. 
+                Chaque signalement contribue à améliorer notre cadre de vie commun.
+            </p>
+        </div>
+        <div class="flex justify-center md:justify-end">
+            <img src="https://images.pexels.com/photos/313782/pexels-photo-313782.jpeg?auto=compress&fit=crop&w=400&q=80" alt="Ville CitoyenActif" class="rounded-3xl shadow-2xl w-full max-w-xs md:max-w-md object-cover animate-slide-up" loading="lazy">
+        </div>
+    </div>
+
+    <!-- Stats Banner (dynamique) -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white animate-slide-up">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+                <div class="text-3xl font-bold mb-2">{{ stats.total_reports|default:'0' }}</div>
+                <div class="text-blue-100">Signalements totaux</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold mb-2">{{ stats.resolved_reports|default:'0' }}</div>
+                <div class="text-blue-100">Problèmes résolus</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold mb-2">{{ stats.resolution_rate|default:'0' }}%</div>
+                <div class="text-blue-100">Taux de résolution</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold mb-2">{{ stats.avg_time|default:'N/A' }}</div>
+                <div class="text-blue-100">Délai moyen</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white shadow-xl rounded-2xl p-8">
+        <h3 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <svg class="mr-3 h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
+            </svg>
+            Filtrer les signalements
+        </h3>
+        <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Recherche</label>
+                <input type="text" name="search" id="search" value="{{ current_filters.search }}" 
+                       placeholder="Titre, description, lieu..." 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300">
+            </div>
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                <select name="category" id="category" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300">
+                    <option value="">Toutes les catégories</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}" {% if current_filters.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                <select name="status" id="status" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300">
+                    <option value="">Tous les statuts</option>
+                    {% for value, label in STATUSES %}
+                    <option value="{{ value }}" {% if current_filters.status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="flex items-end space-x-4">
+                <a href="{% url 'reports:public_reports' %}" class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+                    Réinitialiser
+                </a>
+                <button type="submit" class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 transform hover:scale-105">
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Filtrer
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Results count -->
+    <div class="text-center">
+        <p class="text-lg text-gray-600">
+            <span class="font-semibold text-2xl text-blue-600">{{ page_obj.paginator.count }}</span> signalements résolus trouvés
+        </p>
+    </div>
+
+    <!-- Reports Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for report in page_obj %}
+        <a href="{% url 'reports:public_report_detail' report.pk %}" class="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition duration-500 transform hover:-translate-y-2 group focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="h-48 bg-gradient-to-br from-green-400 to-green-600 relative overflow-hidden">
+                {% if report.photo %}
+                <img src="{{ report.photo.url }}" alt="{{ report.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center text-5xl text-white opacity-40">
+                    <svg class="h-16 w-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                {% endif %}
+                <div class="absolute top-4 left-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        {% if report.status == 'resolved' %}✅ Résolu{% elif report.status == 'in_progress' %}🛠️ En cours{% else %}⏳ En attente{% endif %}
+                    </span>
+                </div>
+                <div class="absolute top-4 right-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/90 text-gray-800">
+                        {{ report.category.name }}
+                    </span>
+                </div>
+            </div>
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{ report.title }}</h3>
+                <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ report.description|truncatechars:120 }}</p>
+                <div class="space-y-2">
+                    <div class="flex items-center text-sm text-gray-500">
+                        <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        {{ report.location }}
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {% if report.status == 'resolved' %}Résolu le {{ report.updated_at|date:'d/m/Y' }}{% else %}Créé le {{ report.created_at|date:'d/m/Y' }}{% endif %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            {{ report.comments.count }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <div class="col-span-3 text-center text-gray-500 py-12 text-lg">Aucun signalement trouvé pour ces critères.</div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-center mt-8">
+        {% if page_obj.has_other_pages %}
+        <nav class="flex items-center space-x-2">
+            {% if page_obj.has_previous %}
+            <a href="?{% if current_filters.search %}search={{ current_filters.search|urlencode }}&{% endif %}{% if current_filters.category %}category={{ current_filters.category }}&{% endif %}page={{ page_obj.previous_page_number }}" class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-300">Précédent</a>
+            {% else %}
+            <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-white border border-gray-200 rounded-lg">Précédent</span>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <span class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?{% if current_filters.search %}search={{ current_filters.search|urlencode }}&{% endif %}{% if current_filters.category %}category={{ current_filters.category }}&{% endif %}page={{ num }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-300">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <a href="?{% if current_filters.search %}search={{ current_filters.search|urlencode }}&{% endif %}{% if current_filters.category %}category={{ current_filters.category }}&{% endif %}page={{ page_obj.next_page_number }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-300">Suivant</a>
+            {% else %}
+            <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-white border border-gray-200 rounded-lg">Suivant</span>
+            {% endif %}
+        </nav>
+        {% endif %}
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-8 md:p-16 text-center">
+        <h2 class="text-2xl md:text-4xl font-bold text-white mb-6">
+            Vous aussi, contribuez à l'amélioration de votre ville !
+        </h2>
+        <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Signalez les problèmes urbains que vous rencontrez et aidez votre communauté à vivre dans un environnement plus agréable et plus sûr.
+        </p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'reports:create' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Créer un signalement
+            </a>
+        {% else %}
+            <a href="{% url 'accounts:register' %}" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 shadow-xl">
+                <svg class="mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                Rejoindre CitoyenActif
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
